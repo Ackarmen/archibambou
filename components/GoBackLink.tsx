@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const GoBacklink = () => {
   return (
-    <div className="ml-[-4px]">
+    <div className="ml-[-4px] w-fit">
       <Link
         className="flex items-center text-gray-900 text-sm underline underline-offset-2"
         href="/"

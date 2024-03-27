@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 type AccountCheckProps = {
-  answer: string;
+  answer?: string;
   action: string;
   path: string;
 };

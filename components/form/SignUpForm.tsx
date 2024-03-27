@@ -14,7 +14,8 @@ import { Input } from '@/components/ui/input';
 import { SignUpSchemaType, signUpSchema } from '@/types/signUpSchema';
 import { signUpAction } from '@/utils/supabase/authAction';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef } from 'react';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import AccountAnswer from '../AccountAnswer';
 
@@ -23,6 +24,8 @@ const SignUpForm = ({
 }: {
   searchParams: { message: string };
 }) => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<SignUpSchemaType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -33,10 +36,16 @@ const SignUpForm = ({
     },
   });
 
-  const formRef = useRef<HTMLFormElement>(null);
+  const onSubmit = (value: SignUpSchemaType) => {
+    const formData = new FormData();
+    formData.append('userName', value.userName);
+    formData.append('email', value.email);
+    formData.append('password', value.password);
+    formData.append('confirmpassword', value.confirmpassword);
 
-  const handleSubmit = () => {
-    formRef.current?.submit();
+    startTransition(() => {
+      signUpAction(formData);
+    });
   };
 
   return (
@@ -51,11 +60,7 @@ const SignUpForm = ({
       )}
 
       <Form {...form}>
-        <form
-          ref={formRef}
-          action={signUpAction}
-          onSubmit={form.handleSubmit(handleSubmit)}
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="userName"
@@ -116,8 +121,12 @@ const SignUpForm = ({
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
-            Créer un compte
+          <Button disabled={isPending} type="submit" className="w-full">
+            {isPending ? (
+              <ReloadIcon className="h-4 w-4 animate-spin" />
+            ) : (
+              'Créer un compte'
+            )}
           </Button>
         </form>
       </Form>

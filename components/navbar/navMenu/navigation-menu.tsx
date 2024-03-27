@@ -1,8 +1,5 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import React from 'react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,19 +8,22 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '../../ui/navigation-menu';
+} from '@/components/ui/navigation-menu';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import React from 'react';
 
 const NavigationsMenu = () => {
   const products: { title: string; href: string; description: string }[] = [
     {
       title: 'Parquets',
-      href: '/',
+      href: '/products/parquets',
       description:
         'A modal dialog that interrupts the user with important content and expects a response.',
     },
     {
       title: 'Terrasses',
-      href: '/',
+      href: '/products/terrasses',
       description:
         'For sighted users to preview content available behind a link.',
     },

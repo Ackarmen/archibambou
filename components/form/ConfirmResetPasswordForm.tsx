@@ -1,6 +1,5 @@
 'use client';
 
-import GoBacklink from '@/components/GoBackLink';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -11,64 +10,59 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { SignInSchemaType, signInSchema } from '@/types/signInSchema';
-import { signInAction } from '@/utils/supabase/authAction';
+import {
+  ConfirmResetPasswordSchemaType,
+  confirmResetPasswordSchema,
+} from '@/types/confirmResetPasswordSchema';
+import { confirmResetPasswordAction } from '@/utils/supabase/authAction';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import AccountAnswer from '../AccountAnswer';
+import GoBacklink from '../GoBackLink';
 
-const SignInForm = ({
+const ConfirmResetPasswordForm = ({
   searchParams,
 }: {
   searchParams: { message: string };
 }) => {
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<SignInSchemaType>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<ConfirmResetPasswordSchemaType>({
+    resolver: zodResolver(confirmResetPasswordSchema),
     defaultValues: {
-      email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
-  const onSubmit = (value: SignInSchemaType) => {
+  const onSubmit = (value: ConfirmResetPasswordSchemaType) => {
     const formData = new FormData();
-    formData.append('email', value.email);
     formData.append('password', value.password);
+    formData.append('confirmPassword', value.confirmPassword);
 
     startTransition(() => {
-      signInAction(formData);
+      confirmResetPasswordAction(formData);
     });
   };
 
   return (
     <div className="mx-auto w-1/4">
       <GoBacklink />
-      <h2 className="font-bold text-xl text-neutral-800">
-        Ravi de vous revoir !
-      </h2>
-
+      <h1>Nouveau mot de passe</h1>
       {searchParams?.message && (
-        <p className="text-red-500">{searchParams.message}</p>
+        <p className="text-red-500 text-sm">{searchParams.message}</p>
       )}
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
-            name="email"
+            name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email*</FormLabel>
+                <FormLabel>Nouveau mot de passe*</FormLabel>
                 <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="exemple@exemple.com"
-                    {...field}
-                  />
+                  <Input type="password" placeholder="*********" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -76,10 +70,10 @@ const SignInForm = ({
           />
           <FormField
             control={form.control}
-            name="password"
+            name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Mot de passe*</FormLabel>
+                <FormLabel>Confirmez votre nouveau mot de passe*</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="*********" {...field} />
                 </FormControl>
@@ -91,22 +85,13 @@ const SignInForm = ({
             {isPending ? (
               <ReloadIcon className="h-4 w-4 animate-spin" />
             ) : (
-              'Conexion'
+              'Confirmer'
             )}
           </Button>
         </form>
       </Form>
-      <AccountAnswer
-        action="Mot de passe oublié ?"
-        path="/auth/resetPassword"
-      />
-      <AccountAnswer
-        answer="Vous n'avez pas de compte ?"
-        path="/auth/signUp"
-        action="Créer un compte"
-      />
     </div>
   );
 };
 
-export default SignInForm;
+export default ConfirmResetPasswordForm;
