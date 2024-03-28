@@ -31,7 +31,7 @@ export function HeroImagesSlider() {
           The hero section slideshow <br /> nobody asked for
         </motion.p>
         <Link
-          href="#"
+          href="/products"
           className="group flex mt-8 items-center mr-4 rounded-md px-4 py-2 h-9 text-sm font-medium border border-primary bg-transparent text-gray-300 shadow-sm hover:bg-primary/20 transition"
         >
           Nos Produits

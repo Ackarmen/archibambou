@@ -91,7 +91,7 @@ const SignInForm = ({
             {isPending ? (
               <ReloadIcon className="h-4 w-4 animate-spin" />
             ) : (
-              'Conexion'
+              'Connexion'
             )}
           </Button>
         </form>

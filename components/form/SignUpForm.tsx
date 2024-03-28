@@ -133,7 +133,7 @@ const SignUpForm = ({
       <AccountAnswer
         answer="Vous avez déjà un compte ?"
         path="/auth/signIn"
-        action="Conexion"
+        action="Connexion"
       />
     </div>
   );

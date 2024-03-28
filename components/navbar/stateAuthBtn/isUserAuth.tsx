@@ -23,7 +23,7 @@ const IsUserAuth = async () => {
             className="rounded-md px-4 py-2 h-9 text-sm font-medium bg-primary text-gray-300 shadow hover:bg-primary/80 transition"
             href="/auth/signIn"
           >
-            Conexion
+            Connexion
           </Link>
         </div>
       ) : (
